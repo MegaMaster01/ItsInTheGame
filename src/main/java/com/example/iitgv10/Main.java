@@ -17,6 +17,8 @@ public class Main extends Application {
         stage.setFullScreen(true);
 
         stage.show();
+
+        System.out.println(stage.getWidth() + " x " + stage.getHeight());
     }
 
     public static void main(String[] args) {

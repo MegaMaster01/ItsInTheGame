@@ -39,7 +39,6 @@ public class Game {
         rt.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
                 imageView.setDisable(false);
                 c.setPlayerScore(randomNum);
             }
@@ -50,6 +49,7 @@ public class Game {
         if(lastRoll > 6){
             lastRoll -= 6;
         }
+
         return currentlyRolled;
     }
 }

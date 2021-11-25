@@ -21,6 +21,9 @@ public class Controller {
     public ImageView imgWheel;
     public Label lblTest;
     public Label lblPlayerToRoll;
+    public AnchorPane paneGame;
+    public Label lblInformationDialog;
+    public ImageView imgCurrentplace;
     //variables
     ArrayList<Player> players;
     Game game = new Game();
@@ -28,15 +31,13 @@ public class Controller {
 
     public Button btnEnterGame;
     public AnchorPane paneDescription;
-    public SplitPane paneSplitpane;
-    public AnchorPane paneRight;
     public AnchorPane paneLeft;
 
     public void initialize(){
         //this will execute at the beginning of the program
         //set the panes right
         paneDescription.setVisible(true);
-        paneSplitpane.setVisible(false);
+        paneGame.setVisible(false);
 
         players = new ArrayList<>();
         createPlayers();
@@ -45,6 +46,11 @@ public class Controller {
     }
 
     public void setPlayerTurn(int player){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Player p = players.get(player-1);
         lblPlayerToRoll.setTextFill(p.getColor());
         lblPlayerToRoll.setText(p.getName() + "'s turn!"); // let people know who's first
@@ -57,18 +63,22 @@ public class Controller {
         player1.setName("Player 1"); //give player  name
         player1.setPosition(0);     //give starting position (0 = start)
         player1.setColor(Color.RED); //give each player a color
+        player1.setPlayerNum(1);     //set player number (to use easier)
         Player player2 = new Player(); //repeat.....
         player2.setName("Player 2");
         player2.setPosition(0);
         player2.setColor(Color.BLUE);
+        player2.setPlayerNum(2);
         Player player3 = new Player();
         player3.setName("Player 3");
         player3.setPosition(0);
         player3.setColor(Color.GREEN);
+        player3.setPlayerNum(3);
         Player player4 = new Player();
         player4.setName("Player 4");
         player4.setPosition(0);
         player4.setColor(Color.YELLOW);
+        player4.setPlayerNum(4);
         players.add(player1);
         players.add(player2);
         players.add(player3);
@@ -78,7 +88,7 @@ public class Controller {
     public void EnterGame(ActionEvent actionEvent) {
         //The user has clicked to enter the game
         paneDescription.setVisible(false); //set the description invisible
-        paneSplitpane.setVisible(true); //and set the playing pane visible
+        paneGame.setVisible(true); //and set the playing pane visible
     }
 
     public void spinWheel(MouseEvent mouseEvent) {
@@ -86,6 +96,18 @@ public class Controller {
     }
 
     public void setPlayerScore(int score){
-        System.out.println(score);
+        activePlayer.setPosition(activePlayer.getPosition() + score);   //IF AMOUNT OF BOXES IS KNOWN, CREATE IF STATEMENT TO GO FROM (EXAMPLE) 30 --> 0
+        System.out.println(activePlayer.getName() + ": " + activePlayer.getPosition());
+
+        //////////////////////////////////
+        // change image and information //
+        //////////////////////////////////
+
+        //switch to different player
+        if(activePlayer.getPlayerNum() == 4){
+            setPlayerTurn(1); // player 1 again
+        }else{
+            setPlayerTurn(activePlayer.getPlayerNum() + 1);
+        }
     }
 }

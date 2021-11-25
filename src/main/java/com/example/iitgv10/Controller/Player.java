@@ -6,6 +6,15 @@ public class Player {
     String name;
     int position;
     Color color;
+    int playerNum;
+
+    public int getPlayerNum() {
+        return playerNum;
+    }
+
+    public void setPlayerNum(int playerNum) {
+        this.playerNum = playerNum;
+    }
 
     public Color getColor() {
         return color;

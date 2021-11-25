@@ -2,14 +2,53 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: darkgray;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iitgv10.Controller.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: darkgray;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iitgv10.Controller.Controller">
    <children>
+    <AnchorPane fx:id="paneGame" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="lblPlayerToRoll" alignment="CENTER" prefWidth="400.0" text="Player 1" textAlignment="CENTER" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="140.0">
+               <font>
+                  <Font name="Rockwell Nova Bold" size="30.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgWheel" fitHeight="400.0" fitWidth="400.0" onMouseClicked="#spinWheel" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="200.0">
+               <image>
+                  <Image url="@Images/wheel.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblTest" layoutX="48.0" layoutY="100.0" text="Label" />
+            <ImageView fx:id="imgCurrentplace" fitHeight="400.0" fitWidth="600.0" layoutX="778.0" layoutY="158.0" pickOnBounds="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <image>
+                  <Image url="@Images/test_img.png" />
+               </image>
+               <effect>
+                  <InnerShadow choke="0.5" height="100.0" radius="49.5" width="100.0">
+                     <color>
+                        <Color red="0.6600000262260437" green="0.6600000262260437" blue="0.6600000262260437" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+            </ImageView>
+            <Text fill="#f29e21" layoutX="189.0" layoutY="195.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="2.0" text="▼" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="170.0">
+               <font>
+                  <Font size="51.0" />
+               </font>
+            </Text>
+            <Label fx:id="lblInformationDialog" alignment="TOP_LEFT" layoutX="1068.0" layoutY="439.0" prefHeight="90.0" prefWidth="433.0" text="If a card is drawn the explination goes here so the player knows what to do with it" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="930.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="430.0">
+               <font>
+                  <Font name="Rockwell Nova" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
       <AnchorPane fx:id="paneDescription" prefHeight="1080.0" prefWidth="1920.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="btnEnterGame" mnemonicParsing="false" onAction="#EnterGame" style="-fx-background-radius: 100; -fx-border-radius: 100; -fx-border-color: BLACK;" text="Enter Game!" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="600.0">
@@ -44,25 +83,6 @@
             </Label>
          </children>
       </AnchorPane>
-      <SplitPane fx:id="paneSplitpane" dividerPositions="0.6" style="-fx-background-color: darkgray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane fx:id="paneLeft" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <Label fx:id="lblPlayerToRoll" alignment="CENTER" prefWidth="400.0" text="Player 1" textAlignment="CENTER" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="150.0">
-                     <font>
-                        <Font name="Rockwell Nova Bold" size="30.0" />
-                     </font>
-                  </Label>
-                  <ImageView fx:id="imgWheel" fitHeight="400.0" fitWidth="400.0" onMouseClicked="#spinWheel" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="200.0">
-                     <image>
-                        <Image url="@wheel.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="lblTest" layoutX="48.0" layoutY="100.0" text="Label" />
-               </children></AnchorPane>
-          <AnchorPane fx:id="paneRight" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-        </items>
-      </SplitPane>
       <Label text="It's In The Game Group 2" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
          <font>
             <Font name="Rockwell Nova Bold" size="40.0" />
