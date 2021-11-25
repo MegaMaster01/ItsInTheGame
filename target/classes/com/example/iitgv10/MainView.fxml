@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: darkgray;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iitgv10.Controller.Controller">
+   <children>
+      <AnchorPane fx:id="paneDescription" prefHeight="1080.0" prefWidth="1920.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="btnEnterGame" mnemonicParsing="false" onAction="#EnterGame" style="-fx-background-radius: 100; -fx-border-radius: 100; -fx-border-color: BLACK;" text="Enter Game!" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="600.0">
+               <font>
+                  <Font name="Rockwell Nova Bold Italic" size="35.0" />
+               </font>
+            </Button>
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="1920.0" text="Goal of the game:" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+               <font>
+                  <Font name="Rockwell Nova Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="210.0" prefHeight="85.0" prefWidth="1920.0" text="A big gaming company named ‘HolyGaming’ has launched an exciting new project, Project:XVII. This involves the development of a new game that has much potential in becoming world’s most popular game." textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
+               <font>
+                  <Font name="Rockwell Nova" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="260.0" prefHeight="85.0" prefWidth="1920.0" text="They are looking for people to develop this game. Since you have experience with developing games, you’re very interested. This project is launched during COVID. For that reason, the developer works from home. HolyGaming is willing to pay for any assets needed for the ultimate gaming-development studio. " textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="400.0">
+               <font>
+                  <Font name="Rockwell Nova" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="43.0" prefWidth="1920.0" text="The problem is: " textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="500.0">
+               <font>
+                  <Font name="Rockwell Nova Italic" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="10.0" layoutY="510.0" prefHeight="43.0" prefWidth="1920.0" text="There are 3 others in the same position as you! Can you finish your studio before the others do?!" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="530.0">
+               <font>
+                  <Font name="Rockwell Nova" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <SplitPane fx:id="paneSplitpane" dividerPositions="0.6" style="-fx-background-color: darkgray;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane fx:id="paneLeft" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="lblPlayerToRoll" alignment="CENTER" prefWidth="400.0" text="Player 1" textAlignment="CENTER" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="150.0">
+                     <font>
+                        <Font name="Rockwell Nova Bold" size="30.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="imgWheel" fitHeight="400.0" fitWidth="400.0" onMouseClicked="#spinWheel" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="200.0">
+                     <image>
+                        <Image url="@wheel.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblTest" layoutX="48.0" layoutY="100.0" text="Label" />
+               </children></AnchorPane>
+          <AnchorPane fx:id="paneRight" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+        </items>
+      </SplitPane>
+      <Label text="It's In The Game Group 2" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="Rockwell Nova Bold" size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
