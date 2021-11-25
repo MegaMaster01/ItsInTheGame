@@ -1,0 +1,176 @@
+Here you can fill in and read information per card or position. This will be used to give information to the user. Information = 4x space + info(in 1 line only!!!). FOR CARDS ONLY: use ; to split information and rule
+card1
+{
+    card1 information;card1 rule
+}
+
+card2
+{
+    card2 information;card2 rule
+}
+
+card3
+{
+    card3 information;card3 rule
+}
+
+card4
+{
+    card4 information;card4 rule
+}
+
+card5
+{
+    card5 information;card5 rule
+}
+
+pos1
+{
+    pos1 information
+}
+
+pos2
+{
+    pos2 information
+}
+
+pos3
+{
+    pos3 information
+}
+
+pos4
+{
+    pos4 information
+}
+
+pos5
+{
+    pos5 information
+}
+
+pos6
+{
+    pos6 information
+}
+
+pos7
+{
+    pos7 information
+}
+
+pos8
+{
+    pos8 information
+}
+
+pos9
+{
+    pos9 information
+}
+
+pos10
+{
+    pos10 information
+}
+
+pos11
+{
+    pos11 information
+}
+
+pos12
+{
+    pos12 information
+}
+
+pos13
+{
+    pos13 information
+}
+
+pos14
+{
+    pos14 information
+}
+
+pos15
+{
+    pos15 information
+}
+
+pos16
+{
+    pos16 information
+}
+
+pos17
+{
+    pos17 information
+}
+
+pos18
+{
+    pos18 information
+}
+
+pos19
+{
+    pos19 information
+}
+
+pos20
+{
+    pos20 information
+}
+
+pos21
+{
+    pos21 information
+}
+
+pos22
+{
+    pos22 information
+}
+
+pos23
+{
+    pos23 information
+}
+
+pos24
+{
+    pos24 information
+}
+
+pos25
+{
+    pos25 information
+}
+
+pos26
+{
+    pos26 information
+}
+
+pos27
+{
+    pos27 information
+}
+
+pos28
+{
+    pos28 information
+}
+
+pos29
+{
+    pos29 information
+}
+
+pos30
+{
+    pos30 information
+}
+
