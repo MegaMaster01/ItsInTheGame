@@ -12,6 +12,7 @@ public class Game {
 
     public void spinWheel(ImageView imageView, Label l, Controller c){
         int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+//        int randomNum = 5;
         //System.out.println(lastRoll + "     " + randomNum);
         l.setText("The dice rolled: " + randomNum);
 

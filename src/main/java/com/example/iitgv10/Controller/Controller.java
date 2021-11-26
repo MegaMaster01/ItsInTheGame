@@ -32,13 +32,14 @@ public class Controller {
     public ImageView imgCurrentPlace;
     public Label lblContinue;
     public ImageView imgTrace;
+    ArrayList<Circle> movingCircle;
     //variables
     ArrayList<Player> players;
     Game game = new Game();
     Player activePlayer = new Player();
     Reader reader = new Reader();
     Boolean listenForButtonClick = false;
-    int AMOUNT_OF_POSITIONS = 30;
+    int AMOUNT_OF_POSITIONS = 28;
     int lastScore = 0;
     ArrayList<Label> positionLabels;
     Circle mc = new Circle();
@@ -109,12 +110,16 @@ public class Controller {
     }
 
     public void setPlayerScore(int score){
-        activePlayer.setPosition(activePlayer.getPosition() + score);   //IF AMOUNT OF BOXES IS KNOWN, CREATE IF STATEMENT TO GO FROM (EXAMPLE) 30 --> 0
+        if(activePlayer.getPosition() + score > AMOUNT_OF_POSITIONS){
+            activePlayer.setPosition(activePlayer.getPosition() + score - AMOUNT_OF_POSITIONS);
+        }else{
+            activePlayer.setPosition(activePlayer.getPosition() + score);
+        }
+           //IF AMOUNT OF BOXES IS KNOWN, CREATE IF STATEMENT TO GO FROM (EXAMPLE) 30 --> 0
         System.out.println(activePlayer.getName() + ": " + activePlayer.getPosition());
 
-        positionLabels = drawPositions(score);
 
-        ArrayList<Circle> movingCircle =  moveCircle(score);
+        positionLabels = drawPositions(score, "forwards");
 
         //////////////////////////////////
         // change image and information //
@@ -122,11 +127,13 @@ public class Controller {
         lblInformationDialog.setText(reader.getData('p', score));
 
         listenForButtonClick = true;
-        listenForKeyPressed(movingCircle);
+        listenForKeyPressed(score);
     }
 
-    public void listenForKeyPressed(ArrayList<Circle> movingCircle){
+    public void listenForKeyPressed(int score){
         lblContinue.setVisible(true);
+
+        movingCircle =  moveCircle(score, "forwards");
 
         Scene scene = lblInformationDialog.getScene();
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
@@ -143,94 +150,145 @@ public class Controller {
                     setPlayerTurn(1); // player 1 again
                     paneGame.getChildren().removeAll(positionLabels);
                     paneGame.getChildren().removeAll(movingCircle);
+                    System.out.println("Removed " + movingCircle.get(0).getId());
                 }else{
-                    //setPlayerTurn(1); // player 1 again
+//                    setPlayerTurn(1); // player 1 again
                     setPlayerTurn(activePlayer.getPlayerNum() + 1);
                     paneGame.getChildren().removeAll(positionLabels);
                     paneGame.getChildren().removeAll(movingCircle);
+                    System.out.println("Removed " + movingCircle.get(0).getId());
                 }
+
             }
         });
     }
 
-    public ArrayList<Label> drawPositions(int score){
-
+    public ArrayList<Label> drawPositions(int score, String direction){
         ArrayList<Label> labels = new ArrayList<>();
 
         int x = (int)imgTrace.getLayoutX() + 55, y = (int)imgTrace.getLayoutY() + 40;
 
-        for(int i = 1; i <= 7; i++){
-            Label l = new Label();
+        if(direction.equals("backwards")){
+            for(int i = 6; i >= 0; i--){
+                Label l = new Label();
 
-            int pos = activePlayer.getPosition();
-
-            if(lastScore <= AMOUNT_OF_POSITIONS){
-                if(lastScore == 0){
-                    l.setText(i-1 + "");
-                }else if(pos+lastScore <= 6){
-                    l.setText((lastScore + i-1) + "");
-                }
-                else if(pos < AMOUNT_OF_POSITIONS-6){
-                    l.setText((lastScore + i-1)+"");
-                }else{
-                    if(lastScore+i-1 <= AMOUNT_OF_POSITIONS){
-                        l.setText(lastScore+i-1 + "");
+                if(i == 0) {
+                    l.setText(lastScore + ""); }
+                else{
+                    if(lastScore-i < 0){
+                        l.setText((AMOUNT_OF_POSITIONS - i + lastScore) + "");
                     }else{
-                        l.setText(lastScore+i-1-AMOUNT_OF_POSITIONS + "");
+                        l.setText((lastScore - i) + "");
                     }
                 }
+
+                l.setLayoutX(x + (5*104) - (i-1)*104);
+                l.setLayoutY(y);
+                l.setFont(new Font("Rockwell Nova Bold", 30));
+                labels.add(l);
+            }
+        }
+        else{
+            for(int i = 1; i <= 7; i++){
+                Label l = new Label();
+
+                int pos = activePlayer.getPosition();
+
+                if(direction.equals("forwards")){
+                    if(lastScore <= AMOUNT_OF_POSITIONS){
+                        if(lastScore == 0){
+                            l.setText(i-1 + "");
+                        }else if(pos+lastScore <= 6){
+                            l.setText((lastScore + i-1) + "");
+                        }
+                        else if(pos < AMOUNT_OF_POSITIONS-6){
+                            l.setText((lastScore + i-1)+"");
+                        }else{
+                            if(lastScore+i-1 <= AMOUNT_OF_POSITIONS){
+                                l.setText(lastScore+i-1 + "");
+                            }else{
+                                l.setText(lastScore+i-1-AMOUNT_OF_POSITIONS + "");
+                            }
+                        }
+                    }
+
+                    l.setLayoutX(x + (i-1)*104);
+                    l.setLayoutY(y);
+                    l.setFont(new Font("Rockwell Nova Bold", 30));
+                    labels.add(l);
+                }
+            /*else if(direction.equals("backwards")){
+                if(lastScore <= AMOUNT_OF_POSITIONS){
+                    if(lastScore == 0){
+                        if(lastScore+i-1 == 0){
+                            l.setText("0");
+                        }else{
+                            l.setText(Math.abs(lastScore+i-1-AMOUNT_OF_POSITIONS) + ""); //set positive numbers
+                        }
+                    }else if(score+lastScore <= 6){
+                        if(lastScore - (i-1) >= 0){
+                            l.setText((lastScore - i-1)+"");
+                        }else{
+                            l.setText(AMOUNT_OF_POSITIONS-i-1 + ""); //set positive numbers
+                        }
+                    }
+                    else if(pos < AMOUNT_OF_POSITIONS-6){
+                        l.setText((lastScore + i-1) + "");
+//                        l.setText((lastScore + i-1)+"");
+                    }else{
+                        l.setText(i-1 + "");
+//                        if(lastScore+i-1 <= AMOUNT_OF_POSITIONS){
+//                            l.setText(lastScore+i-1 + "");
+//                        }else{
+//                            l.setText(lastScore+i-1-AMOUNT_OF_POSITIONS + "");
+//                        }
+                    }
+                }
+
+                l.setLayoutX(x + (6*104) - (i-1)*104);
+                l.setLayoutY(y);
+                l.setFont(new Font("Rockwell Nova Bold", 30));
+                labels.add(l);
             }
 
-            l.setLayoutX(x + (i-1)*104);
-            l.setLayoutY(y);
-            l.setFont(new Font("Rockwell Nova Bold", 30));
-            labels.add(l);
+             */
+            }
         }
+
+
 
         imgTrace.setVisible(true);
         paneGame.getChildren().addAll(labels);
 
-
-
         return labels;
     }
 
-    public ArrayList<Circle> moveCircle(int score){
+    public ArrayList<Circle> moveCircle(int score, String direction){
         //used for traceability
         Circle movingCircle = new Circle();
         movingCircle.setRadius(15);
-        movingCircle.setLayoutX(imgTrace.getLayoutX() + 55);
+
         movingCircle.setLayoutY(imgTrace.getLayoutY() + 40);
         movingCircle.setFill(activePlayer.getColor());
 
+        TranslateTransition tt = new TranslateTransition();
+
+        if(direction.equals("forwards")){
+            movingCircle.setLayoutX(imgTrace.getLayoutX() + 55);
+            tt.setByX(score * 104);
+        }else{
+            movingCircle.setLayoutX(imgTrace.getLayoutX() + imgTrace.getFitWidth() - 55);
+            tt.setByX(-(score * 104));
+        }
         paneGame.getChildren().add(movingCircle);
 
-        TranslateTransition tt = new TranslateTransition();
         tt.setNode(movingCircle);
-        tt.setByX(score * 104);
-        tt.setDuration(Duration.millis(score*500));
+        tt.setDuration(Duration.millis(1000+score*500));
         tt.setCycleCount(0);
-        tt.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                //reset ball to start
-                TranslateTransition tt1 = new TranslateTransition();
-                tt1.setNode(movingCircle);
-                tt1.setByX(-score * 104);
-                tt1.setDuration(Duration.millis(1));
-                tt1.setCycleCount(0);
-                tt1.setOnFinished(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        tt.playFromStart();
-                    }
-                });
-                tt1.playFromStart();
-            }
-        });
         tt.setAutoReverse(false);
         tt.playFromStart();
 
+        System.out.println(movingCircle.getId());
         ArrayList<Circle> list = new ArrayList<>();
         list.add(movingCircle);
         return list;

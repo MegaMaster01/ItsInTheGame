@@ -22,17 +22,6 @@ public class Main extends Application {
 
         stage.show();
 
-//        scene.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent keyEvent) {
-//                System.out.println("Key pressed " + keyEvent.getCode());
-//            }
-//        });
-
-        //Reader r = new Reader();
-
-//        r.setup("src/main/information.csv"); //read data from file
-
         System.out.println(stage.getWidth() + " x " + stage.getHeight());
 
         System.out.println(scene);
