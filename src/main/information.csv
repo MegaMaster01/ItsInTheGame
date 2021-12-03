@@ -24,153 +24,143 @@ card5
     card5 information;card5 rule
 }
 
+pos0
+{
+    pos0 info;pos0 rule
+}
+
 pos1
 {
-    pos1 information
+    pos1 tringtring;tringtring
 }
 
 pos2
 {
-    pos2 information
+    pos2 info;pos2 rule
 }
 
 pos3
 {
-    pos3 information
+    pos3 info;pos3 rule
 }
 
 pos4
 {
-    pos4 information
+    pos4 jatten;jatten
 }
 
 pos5
 {
-    pos5 information
+    pos5 info;pos5 rule
 }
 
 pos6
 {
-    pos6 information
+    pos6 info;pos6 rule
 }
 
 pos7
 {
-    pos7 information
+    pos7 hoo wat is het;hoo wat is het
 }
 
 pos8
 {
-    pos8 information
+    pos8 tringtring;tringtring
 }
 
 pos9
 {
-    pos9 information
+    pos9 casino;casino
 }
 
 pos10
 {
-    pos10 information
+    pos10 info;pos10 rule
 }
 
 pos11
 {
-    pos11 information
+    pos11 jatten;jatten
 }
 
 pos12
 {
-    pos12 information
+    pos12 info;pos12 rule
 }
 
 pos13
 {
-    pos13 information
+    pos13 hoo wat is het;hoo wat is het
 }
 
 pos14
 {
-    pos14 information
+    pos14 rechtzaak;rechtzaak
 }
 
 pos15
 {
-    pos15 information
+    pos15 info;pos15 rule
 }
 
 pos16
 {
-    pos16 information
+    pos16 jatten;jatten
 }
 
 pos17
 {
-    pos17 information
+    pos17 info;pos17 rule
 }
 
 pos18
 {
-    pos18 information
+    pos18 info;pos18 rule
 }
 
 pos19
 {
-    pos19 information
+    pos19 info;pos19 rule
 }
 
 pos20
 {
-    pos20 information
+    pos20 tringtring;tringtring
 }
 
 pos21
 {
-    pos21 information
+    pos21 info;pos21 rule
 }
 
 pos22
 {
-    pos22 information
+    pos22 hoo wat is het;hoo wat is het
 }
 
 pos23
 {
-    pos23 information
+    pos23 casino;casino
 }
 
 pos24
 {
-    pos24 information
+    pos24 jatten;jatten
 }
 
 pos25
 {
-    pos25 information
+    pos25 info;pos25 rule
 }
 
 pos26
 {
-    pos26 information
+    pos26 info;pos26 rule
 }
 
 pos27
 {
-    pos27 information
-}
-
-pos28
-{
-    pos28 information
-}
-
-pos29
-{
-    pos29 information
-}
-
-pos30
-{
-    pos30 information
+    pos27 jatten;jatten
 }
 

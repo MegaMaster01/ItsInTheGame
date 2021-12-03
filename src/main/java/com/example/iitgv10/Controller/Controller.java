@@ -2,11 +2,13 @@ package com.example.iitgv10.Controller;
 
 import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -20,12 +22,12 @@ import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Controller {
     public ImageView imgWheel;
-    public Label lblTest;
     public Label lblPlayerToRoll;
     public AnchorPane paneGame;
     public Label lblInformationDialog;
@@ -38,25 +40,31 @@ public class Controller {
     Game game = new Game();
     Player activePlayer = new Player();
     Reader reader = new Reader();
+    Img img = new Img();
     Boolean listenForButtonClick = false;
     int AMOUNT_OF_POSITIONS = 28;
     int lastScore = 0;
     ArrayList<Label> positionLabels;
     Circle mc = new Circle();
+    Scene scene;
 
     public Button btnEnterGame;
     public AnchorPane paneDescription;
 
     public void initialize(){
         //this will execute at the beginning of the program
+
+        game.setUp(this, reader, imgWheel);
         reader.setup("src/main/information.csv"); //read data from file
+
+        //img.readImages();
 
         //set the panes right
         paneDescription.setVisible(true);
         paneGame.setVisible(false);
         //set variables right
         imgTrace.setVisible(false);
-
+//        imgCurrentPlace.setImage(new Image(this.getClass().getResourceAsStream("Images/wheel.png")));
         players = new ArrayList<>();
         createPlayers();
 
@@ -105,8 +113,9 @@ public class Controller {
     }
 
     public void spinWheel() {
+        scene = lblInformationDialog.getScene();
         lastScore = activePlayer.getPosition();
-        game.spinWheel(imgWheel, lblTest, this);
+        game.spinWheel();
     }
 
     public void setPlayerScore(int score){
@@ -115,52 +124,89 @@ public class Controller {
         }else{
             activePlayer.setPosition(activePlayer.getPosition() + score);
         }
-           //IF AMOUNT OF BOXES IS KNOWN, CREATE IF STATEMENT TO GO FROM (EXAMPLE) 30 --> 0
+
+        boolean action = reader.positionRules.get(activePlayer.getPosition()+1).contains("pos");
+
         System.out.println(activePlayer.getName() + ": " + activePlayer.getPosition());
 
-
-        positionLabels = drawPositions(score, "forwards");
 
         //////////////////////////////////
         // change image and information //
         //////////////////////////////////
-        lblInformationDialog.setText(reader.getData('p', score));
+        lblInformationDialog.setText(reader.getData('p', activePlayer.getPosition()+1));
 
-        listenForButtonClick = true;
-        listenForKeyPressed(score);
+        if(!action){
+            listenForButtonClick = true;
+            listenForKeyPressed(score);
+        }else{
+            game.getPlayerAction();
+            game.playerScore = score;
+        }
     }
 
     public void listenForKeyPressed(int score){
-        lblContinue.setVisible(true);
+        if(score == -1){
+            //do nothing
+            lblContinue.setText("Press enter to continue!");
+            positionLabels = drawPositions(score, "forwards");
+            imgTrace.setVisible(true);
+            movingCircle =  moveCircle(game.playerScore, "forwards");
+            lblContinue.setVisible(true);
+            listenForButtonClick = true;
 
-        movingCircle =  moveCircle(score, "forwards");
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
+                    //switch to different player
+                    imgTrace.setVisible(false);
 
-        Scene scene = lblInformationDialog.getScene();
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
+                    lblContinue.setVisible(false);
+                    listenForButtonClick = false;
 
-                imgTrace.setVisible(false);
-
-                imgWheel.setDisable(false);
-                lblContinue.setVisible(false);
-                listenForButtonClick = false;
-
-                //switch to different player
-                if(activePlayer.getPlayerNum() == 4){
-                    setPlayerTurn(1); // player 1 again
-                    paneGame.getChildren().removeAll(positionLabels);
-                    paneGame.getChildren().removeAll(movingCircle);
-                    System.out.println("Removed " + movingCircle.get(0).getId());
-                }else{
-//                    setPlayerTurn(1); // player 1 again
-                    setPlayerTurn(activePlayer.getPlayerNum() + 1);
-                    paneGame.getChildren().removeAll(positionLabels);
-                    paneGame.getChildren().removeAll(movingCircle);
-                    System.out.println("Removed " + movingCircle.get(0).getId());
+                    lblInformationDialog.setText("");
+                    if(activePlayer.getPlayerNum() == 4){
+                        setPlayerTurn(1); // player 1 again
+                        paneGame.getChildren().removeAll(positionLabels);
+                        paneGame.getChildren().removeAll(movingCircle);
+                        System.out.println("Removed " + movingCircle.get(0).getId());
+                    }else{
+                        setPlayerTurn(activePlayer.getPlayerNum() + 1);
+                        paneGame.getChildren().removeAll(positionLabels);
+                        paneGame.getChildren().removeAll(movingCircle);
+                        System.out.println("Removed " + movingCircle.get(0).getId());
+                    }
                 }
+            });
+        }else{
+            lblContinue.setVisible(true);
+            positionLabels = drawPositions(score, "forwards");
 
-            }
-        });
+            movingCircle =  moveCircle(score, "forwards");
+
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
+
+                    imgTrace.setVisible(false);
+
+                    imgWheel.setDisable(false);
+                    lblContinue.setVisible(false);
+                    listenForButtonClick = false;
+
+                    //switch to different player
+                    if(activePlayer.getPlayerNum() == 4){
+                        setPlayerTurn(1); // player 1 again
+                        paneGame.getChildren().removeAll(positionLabels);
+                        paneGame.getChildren().removeAll(movingCircle);
+                        System.out.println("Removed " + movingCircle.get(0).getId());
+                    }else{
+//                    setPlayerTurn(1); // player 1 again
+                        setPlayerTurn(activePlayer.getPlayerNum() + 1);
+                        paneGame.getChildren().removeAll(positionLabels);
+                        paneGame.getChildren().removeAll(movingCircle);
+                        System.out.println("Removed " + movingCircle.get(0).getId());
+                    }
+                }
+            });
+        }
     }
 
     public ArrayList<Label> drawPositions(int score, String direction){
@@ -217,41 +263,6 @@ public class Controller {
                     l.setFont(new Font("Rockwell Nova Bold", 30));
                     labels.add(l);
                 }
-            /*else if(direction.equals("backwards")){
-                if(lastScore <= AMOUNT_OF_POSITIONS){
-                    if(lastScore == 0){
-                        if(lastScore+i-1 == 0){
-                            l.setText("0");
-                        }else{
-                            l.setText(Math.abs(lastScore+i-1-AMOUNT_OF_POSITIONS) + ""); //set positive numbers
-                        }
-                    }else if(score+lastScore <= 6){
-                        if(lastScore - (i-1) >= 0){
-                            l.setText((lastScore - i-1)+"");
-                        }else{
-                            l.setText(AMOUNT_OF_POSITIONS-i-1 + ""); //set positive numbers
-                        }
-                    }
-                    else if(pos < AMOUNT_OF_POSITIONS-6){
-                        l.setText((lastScore + i-1) + "");
-//                        l.setText((lastScore + i-1)+"");
-                    }else{
-                        l.setText(i-1 + "");
-//                        if(lastScore+i-1 <= AMOUNT_OF_POSITIONS){
-//                            l.setText(lastScore+i-1 + "");
-//                        }else{
-//                            l.setText(lastScore+i-1-AMOUNT_OF_POSITIONS + "");
-//                        }
-                    }
-                }
-
-                l.setLayoutX(x + (6*104) - (i-1)*104);
-                l.setLayoutY(y);
-                l.setFont(new Font("Rockwell Nova Bold", 30));
-                labels.add(l);
-            }
-
-             */
             }
         }
 
@@ -293,6 +304,4 @@ public class Controller {
         list.add(movingCircle);
         return list;
     }
-
-
 }

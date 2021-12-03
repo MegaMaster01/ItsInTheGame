@@ -8,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 public class Main extends Application {
     @Override
@@ -24,7 +26,7 @@ public class Main extends Application {
 
         System.out.println(stage.getWidth() + " x " + stage.getHeight());
 
-        System.out.println(scene);
+
     }
 
     public static void main(String[] args) {

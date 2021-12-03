@@ -7,6 +7,7 @@ public class Reader {
     ArrayList<String> cardInformation = new ArrayList<>();
     ArrayList<String> positionInformation = new ArrayList<>();
     ArrayList<String> cardRules = new ArrayList<>();
+    ArrayList<String> positionRules = new ArrayList<>();
 
     public void setup(String path){
         r = new CsvReader(path);
@@ -15,6 +16,19 @@ public class Reader {
     }
 
     public void readData(){
+        /*
+        Position rule possibilities:
+        tringtring
+        jatten
+        hoo wat is het
+        casino
+        rechtzaak
+
+
+        Card rule possibilities:
+
+
+         */
         r.skipRow();
 
         boolean saveData = false;
@@ -29,6 +43,7 @@ public class Reader {
                     cardRules.add(r.getString(1));
                 }else if(saveDataToList == 'p'){
                     positionInformation.add(data.substring(4)); //skip first 4 spaces
+                    positionRules.add(r.getString(1));
                 }
 
                 saveData = false;
@@ -50,6 +65,7 @@ public class Reader {
         System.out.println(cardInformation.size() + " " + cardInformation.get(0));
         System.out.println(positionInformation.size() + " " + positionInformation.get(0));
         System.out.println(cardRules.size() + " " + cardRules.get(0));
+        System.out.println(positionRules.size() + " " + positionRules.get(0));
     }
 
     public String getData(char fromWhichList, int numberOfCardOrPosition){
