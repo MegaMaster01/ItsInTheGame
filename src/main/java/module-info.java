@@ -10,6 +10,7 @@ module com.example.iitgv10 {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires javafx.graphics;
+    requires javafx.media;
 
     opens com.example.iitgv10 to javafx.fxml;
     exports com.example.iitgv10;

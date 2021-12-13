@@ -36,27 +36,27 @@ pos1
 
 pos2
 {
-    pos2 info;tringtring
+    pos2 info;pos2 rule
 }
 
 pos3
 {
-    pos3 info;tringtring
+    pos3 info;pos3 rule
 }
 
 pos4
 {
-    pos4 jatten;tringtring
+    pos4 jatten;jatten
 }
 
 pos5
 {
-    pos5 info;tringtring
+    pos5 info;pos5 rule
 }
 
 pos6
 {
-    pos6 info;tringtring
+    pos6 info;pos6 rule
 }
 
 pos7

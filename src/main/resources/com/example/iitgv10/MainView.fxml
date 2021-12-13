@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
@@ -10,26 +10,21 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iitgv10.Controller.Controller">
+<AnchorPane fx:id="paneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: white; -fx-background-size: 100%;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iitgv10.Controller.Controller">
    <children>
-    <AnchorPane fx:id="paneGame" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane fx:id="paneGame" minHeight="0.0" minWidth="0.0" prefHeight="864.0" prefWidth="1536.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefWidth="400.0" text="RIVALS" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="65.0">
-               <font>
-                  <Font name="Berlin Sans FB bold" size="50.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" prefWidth="400.0" text="STUDIO" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="20.0">
-               <font>
-                  <Font name="Berlin Sans FB" size="50.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblPlayerToRoll" alignment="CENTER" prefWidth="400.0" text="Player 1" textAlignment="CENTER" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="140.0">
-               <font>
-                  <Font name="Rockwell Nova Bold" size="30.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="imgWheel" fitHeight="400.0" fitWidth="400.0" onMouseClicked="#spinWheel" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="200.0">
+            <ImageView fx:id="imgBackground" fitHeight="864.0" fitWidth="1536.0" pickOnBounds="true" preserveRatio="true" smooth="false" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@Images/background.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="60.0" fitWidth="60.0" onMouseClicked="#backToWelcomeWords" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="30.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView fx:id="imgWheel" fitHeight="400.0" fitWidth="400.0" onMouseClicked="#spinWheel" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="170.0">
                <image>
                   <Image url="@Images/wheel.png" />
                </image>
@@ -37,7 +32,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgCurrentplace" fitHeight="400.0" fitWidth="600.0" layoutX="778.0" layoutY="158.0" pickOnBounds="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <ImageView fx:id="imgCurrentplace" fitHeight="300.0" fitWidth="400.0" layoutX="778.0" layoutY="158.0" pickOnBounds="true" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="160.0">
                <image>
                   <Image url="@Images/test_img.png" />
                </image>
@@ -49,7 +44,7 @@
                   </InnerShadow>
                </effect>
             </ImageView>
-            <Label fx:id="lblInformationDialog" alignment="TOP_LEFT" layoutX="1068.0" layoutY="439.0" prefHeight="90.0" prefWidth="433.0" text="If a card is drawn the explination goes here so the player knows what to do with it" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="930.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="430.0">
+            <Label fx:id="lblInformationDialog" alignment="TOP_LEFT" layoutX="1068.0" layoutY="439.0" prefHeight="90.0" prefWidth="433.0" text="If a card is drawn the explination goes here so the player knows what to do with it" wrapText="true" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="960.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="450.0">
                <font>
                   <Font name="Rockwell Nova" size="20.0" />
                </font>
@@ -59,53 +54,46 @@
                   <Font name="Rockwell Nova Bold" size="30.0" />
                </font>
             </Label>
-            <ImageView fx:id="imgTrace" fitHeight="120.0" fitWidth="750.0" pickOnBounds="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="720.0">
-               <image>
-                  <Image url="@Images/trace.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="30.0" fitWidth="75.0" pickOnBounds="true" AnchorPane.leftAnchor="365.0" AnchorPane.topAnchor="190.0">
+            <ImageView fitHeight="30.0" fitWidth="75.0" pickOnBounds="true" AnchorPane.leftAnchor="410.0" AnchorPane.topAnchor="160.0">
                <image>
                   <Image url="@Images/uithaak.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="imgCurrentPlayer" fitHeight="150.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="280.0" AnchorPane.leftAnchor="100.0">
+               <image>
+                  <Image url="@Images/player_images/gamepad1.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneDescription" prefHeight="1080.0" prefWidth="1920.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="paneDescription" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: WHITE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="btnEnterGame" mnemonicParsing="false" onAction="#EnterGame" style="-fx-background-radius: 100; -fx-border-radius: 100; -fx-border-color: BLACK;" text="Enter Game!" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="500.0" AnchorPane.topAnchor="600.0">
+            <ImageView fx:id="imgEaserEgg" fitHeight="864.0" fitWidth="1536.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@Images/easteregg.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imgBackGround_welcome" fitHeight="864.0" fitWidth="1536.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@Images/beginscherm.png" />
+               </image>
+            </ImageView>
+            <CheckBox fx:id="ckb3Players" layoutX="537.0" layoutY="677.0" mnemonicParsing="false" onAction="#set3players" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="280.0">
                <font>
-                  <Font name="Rockwell Nova Bold Italic" size="35.0" />
+                  <Font name="Rockwell Nova" size="30.0" />
                </font>
+            </CheckBox>
+            <CheckBox fx:id="ckb4Players" layoutX="547.0" layoutY="687.0" mnemonicParsing="false" onAction="#set4players" selected="true" AnchorPane.leftAnchor="215.0" AnchorPane.topAnchor="180.0">
+               <font>
+                  <Font name="Rockwell Nova" size="30.0" />
+               </font>
+            </CheckBox>
+            <ImageView fitHeight="99.0" fitWidth="331.0" layoutX="935.0" layoutY="708.0" onMouseClicked="#btnEnterGame" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="934.8" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="708.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
-            </Button>
-            <Label alignment="CENTER" prefHeight="35.0" prefWidth="1920.0" text="Goal of the game:" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
-               <font>
-                  <Font name="Rockwell Nova Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="10.0" layoutY="210.0" prefHeight="85.0" prefWidth="1920.0" text="A big gaming company named ‘HolyGaming’ has launched an exciting new project, Project:XVII. This involves the development of a new game that has much potential in becoming world’s most popular game." textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
-               <font>
-                  <Font name="Rockwell Nova" size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="10.0" layoutY="260.0" prefHeight="85.0" prefWidth="1920.0" text="They are looking for people to develop this game. Since you have experience with developing games, you’re very interested. This project is launched during COVID. For that reason, the developer works from home. HolyGaming is willing to pay for any assets needed for the ultimate gaming-development studio. " textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="400.0">
-               <font>
-                  <Font name="Rockwell Nova" size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="10.0" layoutY="410.0" prefHeight="43.0" prefWidth="1920.0" text="The problem is: " textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="500.0">
-               <font>
-                  <Font name="Rockwell Nova Italic" size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="10.0" layoutY="510.0" prefHeight="43.0" prefWidth="1920.0" text="There are 3 others in the same position as you! Can you finish your studio before the others do?!" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="530.0">
-               <font>
-                  <Font name="Rockwell Nova" size="20.0" />
-               </font>
-            </Label>
+            </ImageView>
+            <ImageView fitHeight="14.0" fitWidth="13.0" layoutX="100.0" layoutY="682.0" onMouseClicked="#easerEgg" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="257.0" AnchorPane.topAnchor="698.0" />
          </children>
       </AnchorPane>
    </children>

@@ -7,6 +7,15 @@ public class Player {
     int position;
     Color color;
     int playerNum;
+    boolean skip = false;
+
+    public boolean isSkip() {
+        return skip;
+    }
+
+    public void setSkip(boolean skip) {
+        this.skip = skip;
+    }
 
     public int getPlayerNum() {
         return playerNum;
