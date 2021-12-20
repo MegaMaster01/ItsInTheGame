@@ -19,6 +19,7 @@ public class Game {
     boolean listenForSpace = false;
     int i = 1;
     int current_jatten_player = 1;
+    int casino_roll;
 
     public void setUp (Controller _c, Reader _r, ImageView imgWheel){
         c = _c;
@@ -83,7 +84,7 @@ public class Game {
                 break;
             default:
                 c.listenForButtonClick = true;
-                c.listenForKeyPressed(p_score);
+                c.setListenToFunction("no_action", p_score);
                 break;
         }
     }
@@ -96,7 +97,7 @@ public class Game {
                 + "\n\nHeb je dit item niet in je bezit? Dan heb je geluk gehad!"
         );
         c.listenForButtonClick = true;
-        c.listenForKeyPressed(p_score);
+        c.setListenToFunction("no_action", p_score);
     }
     //endregion
 
@@ -108,9 +109,9 @@ public class Game {
                 + "Speler " + c.activePlayer.getPlayerNum() + " gooit eerst."
         );
         c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" +
-                "Druk op de spatiebalk om te gooien.");
+                "Druk op enter om te gooien.");
         c.listenForButtonClick = true;
-        c.listenForKeyPressed(-2);
+        c.setListenToFunction("jat_o_hell", p_score);
     }
 
     int score1 = 0;
@@ -143,10 +144,10 @@ public class Game {
         rt.setOnFinished(actionEvent -> {
             if(current_jatten_player == 1){
                 c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n\n" +
-                        "Tegenstander: druk op de spatiebalk om te gooien.");
+                        "Tegenstander: druk op enter om te gooien.");
                 current_jatten_player++;
                 c.listenForButtonClick = true;
-                c.listenForKeyPressed(-2);
+                c.setListenToFunction("jat_o_hell", p_score);
             }else{
                 current_jatten_player = 1;
                 System.out.println("Jatten uitslag:");
@@ -164,7 +165,7 @@ public class Game {
                 c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n\n" +
                         "Score speler "+c.activePlayer.getPlayerNum()+": "+score1+"  Score tegenstander: "+score2);
                 c.listenForButtonClick = true;
-                c.listenForKeyPressed(p_score);
+                c.setListenToFunction("no_action", p_score);
             }
 
         });
@@ -181,9 +182,9 @@ public class Game {
     //region hooWatIsHet (UNFINISHED)
     public void hooWatIsHet(){
         c.lblInformationDialog.setText("Je moet een kaart trekken!" + "\n"+
-                "Druk op de spatiebalk");
+                "Druk op enter");
         c.listenForButtonClick = true;
-        c.listenForKeyPressed(-3);
+        c.setListenToFunction("hoo_wat_is_het", p_score);
         //nog maken!
     }
     public void drawCard(){
@@ -213,24 +214,27 @@ public class Game {
 
     public void stappenVooruit(){
         c.listenForButtonClick = true;
-        c.listenForKeyPressed(-4); //verwijs naar stappen vooruit
+        c.setListenToFunction("stappen_vooruit", p_score); //verwijs naar stappen vooruit
     }
     public void deurwaarder(){
         tringtring();
     }
     public void jat_o_hell(){
         c.lblInformationDialog.setText(c.lblInformationDialog.getText()+"\n"+
-                "Jat-O-Hell! Je mag een willekeurig item van een willekeurig persoon jatten!");
+                "Jat-O-Hell! Je mag een willekeurig item van een willekeurig persoon jatten!\n"
+                +"Druk op enter om door te gaan!"
+        );
+        c.setListenToFunction("no_action", p_score);
     }
     public void gotoStart(){
         c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n\n" +
                 "Ga naar start!\nDruk op enter.");
         c.listenForButtonClick = true;
-        c.listenForKeyPressed(-6);
+        c.setListenToFunction("goto_start", p_score);
     }
     public void stappenAchteruit(){
         c.listenForButtonClick = true;
-        c.listenForKeyPressed(-5); //verwijs naar stappen achteruit
+        c.setListenToFunction("stappen_achteruit", p_score); //verwijs naar stappen achteruit
     }
 
     public void nextPlayer(){
@@ -249,27 +253,29 @@ public class Game {
     public void rechtzaak(){
         c.activePlayer.setSkip(true);
         c.listenForButtonClick = true;
-        c.listenForKeyPressed(p_score);
+        c.setListenToFunction("no_action", p_score);
     }
     //endregion
 
     //region casino
     public void casino(){
         listenForSpace = true;
-        int r = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-        c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" + "Throw "+r+" to win! Press spacebar!");
+        casino_roll = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
+        c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" + "Gooi "+casino_roll+" om te winnen! Druk op spatie!");
         c.scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent ->{
             if(keyEvent.getCode().equals(KeyCode.SPACE) && listenForSpace){
                 listenForSpace = false;
-                rollAgain(r);
+                rollAgain(casino_roll);
             }
         });
     }
 
     public void rollAgain(int whatToRoll){
         int randomNum = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-//        int randomNum = 2;
+//        int randomNum = whatToRoll;
 
+        System.out.println(lastRoll);
         int counter = lastRoll;
 
         int test_steps = 0;
@@ -280,6 +286,7 @@ public class Game {
             }
             test_steps++;
         }
+        System.out.println(test_steps);
 
         imageView.setDisable(true);
         RotateTransition rt = new RotateTransition(Duration.millis(3000), imageView); //was 3000
@@ -290,18 +297,17 @@ public class Game {
             if(randomNum == whatToRoll){
                 //.out.println("Won!");
                 c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" +
-                        "You Won! Choose any item you can use!");
+                        "Je hebt gewonnen! Je mag een item naar keuze uitzoeken!");
                 c.listenForButtonClick = true;
-                c.listenForKeyPressed(-1);
-                imageView.setDisable(false);
+                c.setListenToFunction("min_one", -1);
+
                 //let player know he won!
             }else{
                 //System.out.println("Did not win");
                 c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" +
-                        "Unfortunately you lost!");
+                        "Je hebt helaas verloren.");
                 c.listenForButtonClick = true;
-                c.listenForKeyPressed(-1);
-                imageView.setDisable(false);
+                c.setListenToFunction("min_one", -1);
             }
         });
         rt.play();

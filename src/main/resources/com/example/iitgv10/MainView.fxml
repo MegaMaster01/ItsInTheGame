@@ -46,7 +46,7 @@
             </ImageView>
             <Label fx:id="lblInformationDialog" alignment="TOP_LEFT" layoutX="1068.0" layoutY="439.0" prefHeight="90.0" prefWidth="433.0" text="If a card is drawn the explination goes here so the player knows what to do with it" wrapText="true" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="960.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="450.0">
                <font>
-                  <Font name="Rockwell Nova" size="20.0" />
+                  <Font name="Rockwell Nova" size="18.0" />
                </font>
             </Label>
             <Label fx:id="lblContinue" alignment="CENTER" layoutX="210.0" layoutY="150.0" prefWidth="400.0" text="Press enter to continue!" textAlignment="CENTER" visible="false" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="600.0">

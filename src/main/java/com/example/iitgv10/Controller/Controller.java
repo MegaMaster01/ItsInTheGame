@@ -67,6 +67,7 @@ public class Controller {
     Scene scene;
     Image standardWheelImage;
     String buttonFunction;
+    int currentScore;
 
     public Button btnEnterGame;
     public AnchorPane paneDescription;
@@ -151,7 +152,7 @@ public class Controller {
     }
 
     public void setPlayerScore(int score){
-        if(activePlayer.getPosition() + score > AMOUNT_OF_POSITIONS){
+        if(activePlayer.getPosition() + score >= AMOUNT_OF_POSITIONS){
             activePlayer.setPosition(activePlayer.getPosition() + score - AMOUNT_OF_POSITIONS);
         }else{
             activePlayer.setPosition(activePlayer.getPosition() + score);
@@ -167,172 +168,199 @@ public class Controller {
         lblInformationDialog.setText(reader.getData('p', activePlayer.getPosition()+1));
 
         if(!action){
-            listenForButtonClick = true;
-            listenForKeyPressed(score);
+            setListenToFunction("no_action", score);
         }else{
             game.getPlayerAction();
             game.playerScore = score;
         }
     }
 
-    public void setListenToFunction(String function){
+    int random;
+    public void setListenToFunction(String function, int score){
         buttonFunction = function;
+        currentScore = score;
+
+        switch (buttonFunction){
+            case "no_action":
+                lblContinue.setVisible(true);
+                positionLabels = drawPositions(currentScore, "forwards");
+
+                movingCircle =  moveCircle(currentScore, "forwards");
+                break;
+            case "stappen_achteruit":
+                random = ThreadLocalRandom.current().nextInt(1, 3+1);
+                int pos = 0;
+
+                if(activePlayer.getPosition() < random){
+                    pos = activePlayer.getPosition() - random + AMOUNT_OF_POSITIONS;
+                }else{
+                    pos = activePlayer.getPosition() - random;
+                }
+
+                lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
+                        "Ga " + random + " stappen achteruit (ga naar:"+pos+").\nDruk op enter.");
+                break;
+            case "stappen_vooruit":
+                random = ThreadLocalRandom.current().nextInt(1, 3+1);
+                int pos1 = 0;
+
+                pos1 = activePlayer.getPosition() + random;
+                if(pos1 >= 28){
+                    pos1 -= AMOUNT_OF_POSITIONS;
+                }
+
+                lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
+                        "Ga " + random + " stappen vooruit (ga naar:"+pos1+").\nDruk op enter.");
+                break;
+            case "min_one":
+                lblContinue.setText("Press enter to continue!");
+                positionLabels = drawPositions(score, "forwards");
+                //imgTrace.setVisible(true);
+                movingCircle =  moveCircle(game.playerScore, "forwards");
+                lblContinue.setVisible(true);
+                listenForButtonClick = true;
+                break;
+            default:
+                break;
+        }
     }
     public void createKeyListeners(){
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.SPACE){
-                System.out.println("Space pressed!");
-            }else if(keyEvent.getCode() == KeyCode.ENTER){
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                switch (buttonFunction){
+                    case "no_action":
+                        buttonFunction = "";
+                        no_action();
+                        break;
+                    case "goto_start":
+                        buttonFunction = "";
+                        goto_start();
+                        break;
+                    case "stappen_achteruit":
+                        buttonFunction = "";
+                        stappen_achteruit();
+                        break;
+                    case "stappen_vooruit":
+                        buttonFunction = "";
+                        stappen_vooruit();
+                        break;
+                    case "hoo_wat_is_het":
+                        buttonFunction = "";
+                        hoo_wat_is_het();
+                        break;
+                    case "jat_o_hell":
+                        buttonFunction = "";
+                        jat_o_hell();
+                        break;
+                    case "min_one":
+                        buttonFunction = "";
+                        min_one();
+                        break;
+                    case "continue":
+                        buttonFunction = "";
+                        System.out.println("Continue!");
+                        break;
+                    default:
+                        break;
+                }
+
                 System.out.println("Enter pressed!");
             }
         });
     }
 
-    public void listenForKeyPressed(int score){
-        if(score == -6){
-            //goto start
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
-                    listenForButtonClick = false;
-                    activePlayer.setPosition(0);
-                    game.nextPlayer();
-                }
-            });
-        } else if(score == -5){
-            //stappen achteruit ******************************************************************************
-            int random = ThreadLocalRandom.current().nextInt(1, 3+1);
-            int pos = 0;
+    public void no_action(){
+        lblInformationDialog.setText("");
 
-            if(activePlayer.getPosition() < random){
-                pos = activePlayer.getPosition() - random + AMOUNT_OF_POSITIONS;
-            }else{
-                pos = activePlayer.getPosition() - random;
-            }
+        //imgTrace.setVisible(false);
 
-            lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
-                    "Ga " + random + " stappen achteruit (ga naar:"+pos+").\nDruk op enter.");
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
-                    listenForButtonClick = false;
-                    if(activePlayer.getPosition() < random){
-                        activePlayer.setPosition(activePlayer.getPosition() - random + AMOUNT_OF_POSITIONS);
-                    }else{
-                        activePlayer.setPosition(activePlayer.getPosition() - random);
-                    }
-                    game.nextPlayer();
-                }
-            });
-        } else if(score == -4){
-            //stappen vooruit ********************************************************************************
-            int random = ThreadLocalRandom.current().nextInt(1, 3+1);
-            int pos = 0;
+        imgWheel.setDisable(false);
+        lblContinue.setVisible(false);
+        listenForButtonClick = false;
 
-            pos = activePlayer.getPosition() + random;
-            if(pos >= 28){
-                pos -= AMOUNT_OF_POSITIONS;
-            }
-
-            lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
-                    "Ga " + random + " stappen vooruit (ga naar:"+pos+").\nDruk op enter.");
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
-                    listenForButtonClick = false;
-                    activePlayer.setPosition(activePlayer.getPosition() + random);
-                    if(activePlayer.getPosition() >= 28){
-                        activePlayer.setPosition(activePlayer.getPosition() - AMOUNT_OF_POSITIONS);
-                    }
-                    game.nextPlayer();
-                }
-            });
-        } else if(score == -3){
-            //Hoo wat is het functie!
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.SPACE)){
-                    listenForButtonClick = false;
-                    game.drawCard();
-                }
-            });
-        }
-        else if(score == -2){
-            //Jatten functie!
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.SPACE)){
-                    listenForButtonClick = false;
-                    game.spinWheelForJatten();
-                    //spin wheel
-                }
-            });
-        }
-        else if(score == -1){
-            lblContinue.setText("Press enter to continue!");
-            positionLabels = drawPositions(score, "forwards");
-            //imgTrace.setVisible(true);
-            movingCircle =  moveCircle(game.playerScore, "forwards");
-            lblContinue.setVisible(true);
-            listenForButtonClick = true;
-
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
-                    //switch to different player
-                    //imgTrace.setVisible(false);
-
-                    lblContinue.setVisible(false);
-                    listenForButtonClick = false;
-
-                    lblInformationDialog.setText("");
-                    if(activePlayer.getPlayerNum() == AMOUNT_OF_PLAYERS){
-                        setPlayerTurn(1); // player 1 again
-                        paneGame.getChildren().removeAll(positionLabels);
-                        paneGame.getChildren().removeAll(movingCircle);
-                        //System.out.println("Removed " + movingCircle.get(0).getId());
-                    }else{
-                        setPlayerTurn(activePlayer.getPlayerNum() + 1);
-                        paneGame.getChildren().removeAll(positionLabels);
-                        paneGame.getChildren().removeAll(movingCircle);
-                        //System.out.println("Removed " + movingCircle.get(0).getId());
-                    }
-                }
-            });
+        //switch to different player
+        if(activePlayer.getPlayerNum() == 4){
+            setPlayerTurn(1); // player 1 again
+            paneGame.getChildren().removeAll(positionLabels);
+            paneGame.getChildren().removeAll(movingCircle);
+            //System.out.println("Removed " + movingCircle.get(0).getId());
         }else{
-            lblContinue.setVisible(true);
-            positionLabels = drawPositions(score, "forwards");
-
-            movingCircle =  moveCircle(score, "forwards");
-
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
-                    lblInformationDialog.setText("");
-
-                    //imgTrace.setVisible(false);
-
-                    imgWheel.setDisable(false);
-                    lblContinue.setVisible(false);
-                    listenForButtonClick = false;
-
-                    //switch to different player
-                    if(activePlayer.getPlayerNum() == 4){
-                        setPlayerTurn(1); // player 1 again
-                        paneGame.getChildren().removeAll(positionLabels);
-                        paneGame.getChildren().removeAll(movingCircle);
-                        //System.out.println("Removed " + movingCircle.get(0).getId());
-                    }else{
 //                    setPlayerTurn(1); // player 1 again
-                        setPlayerTurn(activePlayer.getPlayerNum() + 1);
-                        paneGame.getChildren().removeAll(positionLabels);
-                        paneGame.getChildren().removeAll(movingCircle);
-                        //System.out.println("Removed " + movingCircle.get(0).getId());
-                    }
-                    if(activePlayer.isSkip()){
-                        activePlayer.setSkip(false);
-                        if(activePlayer.getPlayerNum() == AMOUNT_OF_PLAYERS){
-                            setPlayerTurn(1);
-                        }else{
-                            setPlayerTurn(activePlayer.getPlayerNum() + 1);
-                        }
-                    }
-                }
-            });
+            setPlayerTurn(activePlayer.getPlayerNum() + 1);
+            paneGame.getChildren().removeAll(positionLabels);
+            paneGame.getChildren().removeAll(movingCircle);
+            //System.out.println("Removed " + movingCircle.get(0).getId());
         }
+        if(activePlayer.isSkip()){
+            activePlayer.setSkip(false);
+            if(activePlayer.getPlayerNum() == AMOUNT_OF_PLAYERS){
+                setPlayerTurn(1);
+            }else{
+                setPlayerTurn(activePlayer.getPlayerNum() + 1);
+            }
+        }
+    }
+    public void goto_start(){
+        listenForButtonClick = false;
+        activePlayer.setPosition(0);
+        game.nextPlayer();
+    }
+    public void stappen_achteruit(){
+        listenForButtonClick = false;
+        if(activePlayer.getPosition() < random){
+            activePlayer.setPosition(activePlayer.getPosition() - random + AMOUNT_OF_POSITIONS);
+        }else{
+            activePlayer.setPosition(activePlayer.getPosition() - random);
+        }
+        check_next_position();
+    }
+    public void stappen_vooruit(){
+        listenForButtonClick = false;
+        activePlayer.setPosition(activePlayer.getPosition() + random);
+        if(activePlayer.getPosition() >= 28){
+            activePlayer.setPosition(activePlayer.getPosition() - AMOUNT_OF_POSITIONS);
+        }
+        check_next_position();
+    }
+    public void hoo_wat_is_het(){
+        listenForButtonClick = false;
+        game.drawCard();
+    }
+    public void jat_o_hell(){
+        listenForButtonClick = false;
+        game.spinWheelForJatten();
+    }
+    public void min_one(){
+        imgWheel.setDisable(false);
+        lblContinue.setVisible(false);
+        listenForButtonClick = false;
+
+        lblInformationDialog.setText("");
+        if(activePlayer.getPlayerNum() == AMOUNT_OF_PLAYERS){
+            setPlayerTurn(1); // player 1 again
+            paneGame.getChildren().removeAll(positionLabels);
+            paneGame.getChildren().removeAll(movingCircle);
+            //System.out.println("Removed " + movingCircle.get(0).getId());
+        }else{
+            setPlayerTurn(activePlayer.getPlayerNum() + 1);
+            paneGame.getChildren().removeAll(positionLabels);
+            paneGame.getChildren().removeAll(movingCircle);
+            //System.out.println("Removed " + movingCircle.get(0).getId());
+        }
+    }
+    public void check_next_position(){
+        System.out.println(reader.getData('p', activePlayer.getPosition()+1) + "    " + activePlayer.getPosition());
+        boolean action = !reader.positionRules.get(activePlayer.getPosition()).contains("pos");
+        lblInformationDialog.setText(reader.getData('p', activePlayer.getPosition()+1));
+
+        if(!action){
+            setListenToFunction("no_action", 0);
+            game.nextPlayer();
+        }else{
+            game.getPlayerAction();
+            game.playerScore = 0;
+        }
+
     }
 
     public ArrayList<Label> drawPositions(int score, String direction){
