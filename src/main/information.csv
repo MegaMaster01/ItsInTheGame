@@ -1,27 +1,27 @@
-Here you can fill in and read information per card or position. This will be used to give information to the user. Information = 4x space + info(in 1 line only!!!). FOR CARDS ONLY: use ; to split information and rule
+Here you can fill in and read information per card or position. This will be used to give information to the user. Information = 4x space + info(in 1 line only!!!). Use ; to split information and rule
 card1
 {
-    card1 information;card1 rule
+    card1 information;stappen_vooruit
 }
 
 card2
 {
-    card2 information;card2 rule
+    card2 information;deurwaarder
 }
 
 card3
 {
-    card3 information;card3 rule
+    card3 information;jat-o-hell
 }
 
 card4
 {
-    card4 information;card4 rule
+    card4 information;goto_start
 }
 
 card5
 {
-    card5 information;card5 rule
+    card5 information;stappen_achteruit
 }
 
 pos0
@@ -31,32 +31,32 @@ pos0
 
 pos1
 {
-    pos1 tringtring;tringtring
+    pos1 tringtring;hoo wat is het
 }
 
 pos2
 {
-    pos2 info;tringtring
+    pos2 info;hoo wat is het
 }
 
 pos3
 {
-    pos3 info;tringtring
+    pos3 info;hoo wat is het
 }
 
 pos4
 {
-    pos4 jatten;tringtring
+    pos4 jatten;hoo wat is het
 }
 
 pos5
 {
-    pos5 info;tringtring
+    pos5 info;hoo wat is het
 }
 
 pos6
 {
-    pos6 info;tringtring
+    pos6 info;hoo wat is het
 }
 
 pos7

@@ -1,6 +1,8 @@
 package com.example.iitgv10.Controller;
 
 import java.io.File;
+
+import javafx.event.EventType;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.animation.PathTransition;
@@ -29,9 +31,11 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.lang.reflect.Array;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller {
     public ImageView imgWheel;
@@ -62,6 +66,7 @@ public class Controller {
     Circle mc = new Circle();
     Scene scene;
     Image standardWheelImage;
+    String buttonFunction;
 
     public Button btnEnterGame;
     public AnchorPane paneDescription;
@@ -87,11 +92,16 @@ public class Controller {
     }
 
     public void setPlayerTurn(int player){
-        System.out.println(imgCurrentPlayer.getImage().getUrl());
+        //System.out.println(imgCurrentPlayer.getImage().getUrl());
         Image img = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/example/iitgv10/Images/player_images/gamepad"+player+".png")));
         imgCurrentPlayer.setImage(img);
         Player p = players.get(player-1);
         activePlayer = p;
+
+        System.out.println("P1: " + players.get(0).getPosition());
+        System.out.println("P2: " + players.get(1).getPosition());
+        System.out.println("P3: " + players.get(2).getPosition());
+        System.out.println("P4: " + players.get(3).getPosition());
     }
 
     public void createPlayers(){
@@ -129,12 +139,13 @@ public class Controller {
         //The user has clicked to enter the game
         paneDescription.setVisible(false); //set the description invisible
         paneGame.setVisible(true); //and set the playing pane visible
+        scene = lblInformationDialog.getScene();
+        createKeyListeners();
         createPlayers();
         setPlayerTurn(1);
     }
 
     public void spinWheel() {
-        scene = lblInformationDialog.getScene();
         lastScore = activePlayer.getPosition();
         game.spinWheel();
     }
@@ -148,7 +159,7 @@ public class Controller {
 
         boolean action = !reader.positionRules.get(activePlayer.getPosition()).contains("pos");
 
-        System.out.println(activePlayer.getName() + ": " + activePlayer.getPosition());
+        //System.out.println(activePlayer.getName() + ": " + activePlayer.getPosition());
 
         //////////////////////////////////
         // change image and information //
@@ -164,8 +175,85 @@ public class Controller {
         }
     }
 
+    public void setListenToFunction(String function){
+        buttonFunction = function;
+    }
+    public void createKeyListeners(){
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.SPACE){
+                System.out.println("Space pressed!");
+            }else if(keyEvent.getCode() == KeyCode.ENTER){
+                System.out.println("Enter pressed!");
+            }
+        });
+    }
+
     public void listenForKeyPressed(int score){
-        if(score == -2){
+        if(score == -6){
+            //goto start
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
+                    listenForButtonClick = false;
+                    activePlayer.setPosition(0);
+                    game.nextPlayer();
+                }
+            });
+        } else if(score == -5){
+            //stappen achteruit ******************************************************************************
+            int random = ThreadLocalRandom.current().nextInt(1, 3+1);
+            int pos = 0;
+
+            if(activePlayer.getPosition() < random){
+                pos = activePlayer.getPosition() - random + AMOUNT_OF_POSITIONS;
+            }else{
+                pos = activePlayer.getPosition() - random;
+            }
+
+            lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
+                    "Ga " + random + " stappen achteruit (ga naar:"+pos+").\nDruk op enter.");
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
+                    listenForButtonClick = false;
+                    if(activePlayer.getPosition() < random){
+                        activePlayer.setPosition(activePlayer.getPosition() - random + AMOUNT_OF_POSITIONS);
+                    }else{
+                        activePlayer.setPosition(activePlayer.getPosition() - random);
+                    }
+                    game.nextPlayer();
+                }
+            });
+        } else if(score == -4){
+            //stappen vooruit ********************************************************************************
+            int random = ThreadLocalRandom.current().nextInt(1, 3+1);
+            int pos = 0;
+
+            pos = activePlayer.getPosition() + random;
+            if(pos >= 28){
+                pos -= AMOUNT_OF_POSITIONS;
+            }
+
+            lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
+                    "Ga " + random + " stappen vooruit (ga naar:"+pos+").\nDruk op enter.");
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.ENTER)){
+                    listenForButtonClick = false;
+                    activePlayer.setPosition(activePlayer.getPosition() + random);
+                    if(activePlayer.getPosition() >= 28){
+                        activePlayer.setPosition(activePlayer.getPosition() - AMOUNT_OF_POSITIONS);
+                    }
+                    game.nextPlayer();
+                }
+            });
+        } else if(score == -3){
+            //Hoo wat is het functie!
+            scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+                if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.SPACE)){
+                    listenForButtonClick = false;
+                    game.drawCard();
+                }
+            });
+        }
+        else if(score == -2){
             //Jatten functie!
             scene.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
                 if(listenForButtonClick && keyEvent.getCode().equals(KeyCode.SPACE)){
@@ -196,12 +284,12 @@ public class Controller {
                         setPlayerTurn(1); // player 1 again
                         paneGame.getChildren().removeAll(positionLabels);
                         paneGame.getChildren().removeAll(movingCircle);
-                        System.out.println("Removed " + movingCircle.get(0).getId());
+                        //System.out.println("Removed " + movingCircle.get(0).getId());
                     }else{
                         setPlayerTurn(activePlayer.getPlayerNum() + 1);
                         paneGame.getChildren().removeAll(positionLabels);
                         paneGame.getChildren().removeAll(movingCircle);
-                        System.out.println("Removed " + movingCircle.get(0).getId());
+                        //System.out.println("Removed " + movingCircle.get(0).getId());
                     }
                 }
             });
@@ -226,13 +314,13 @@ public class Controller {
                         setPlayerTurn(1); // player 1 again
                         paneGame.getChildren().removeAll(positionLabels);
                         paneGame.getChildren().removeAll(movingCircle);
-                        System.out.println("Removed " + movingCircle.get(0).getId());
+                        //System.out.println("Removed " + movingCircle.get(0).getId());
                     }else{
 //                    setPlayerTurn(1); // player 1 again
                         setPlayerTurn(activePlayer.getPlayerNum() + 1);
                         paneGame.getChildren().removeAll(positionLabels);
                         paneGame.getChildren().removeAll(movingCircle);
-                        System.out.println("Removed " + movingCircle.get(0).getId());
+                        //System.out.println("Removed " + movingCircle.get(0).getId());
                     }
                     if(activePlayer.isSkip()){
                         activePlayer.setSkip(false);
@@ -337,7 +425,7 @@ public class Controller {
         tt.setAutoReverse(false);
         tt.playFromStart();
 
-        System.out.println(movingCircle.getId());
+        //System.out.println(movingCircle.getId());
         ArrayList<Circle> list = new ArrayList<>();
         list.add(movingCircle);
         return list;
@@ -369,7 +457,7 @@ public class Controller {
     }
 
     public void easerEgg(MouseEvent mouseEvent) {
-        System.out.println("Clicked");
+        //System.out.println("Clicked");
         imgBackGround_welcome.setVisible(false);
         ckb3Players.setVisible(false);
         ckb3Players.setDisable(true);

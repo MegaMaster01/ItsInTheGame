@@ -1,6 +1,7 @@
 package com.example.iitgv10.Controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Reader {
     CsvReader r;
@@ -8,6 +9,8 @@ public class Reader {
     ArrayList<String> positionInformation = new ArrayList<>();
     ArrayList<String> cardRules = new ArrayList<>();
     ArrayList<String> positionRules = new ArrayList<>();
+
+    ArrayList<Card> cards = new ArrayList<>();
 
     public void setup(String path){
         r = new CsvReader(path);
@@ -39,6 +42,10 @@ public class Reader {
             if(saveData){
                 String data = r.getString(0);
                 if(saveDataToList == 'c'){
+                    Card c = new Card();
+                    c.setInformation(data.substring(4));
+                    c.setRule(r.getString(1));
+                    cards.add(c);
                     cardInformation.add(data.substring(4)); //skip first 4 spaces
                     cardRules.add(r.getString(1));
                 }else if(saveDataToList == 'p'){
@@ -62,10 +69,10 @@ public class Reader {
             }
             //System.out.println(r.getString(0));
         }
-        System.out.println(cardInformation.size() + " " + cardInformation.get(0));
-        System.out.println(positionInformation.size() + " " + positionInformation.get(0));
-        System.out.println(cardRules.size() + " " + cardRules.get(0));
-        System.out.println(positionRules.size() + " " + positionRules.get(0));
+        //System.out.println(cardInformation.size() + " " + cardInformation.get(0));
+       // System.out.println(positionInformation.size() + " " + positionInformation.get(0));
+        //System.out.println(cardRules.size() + " " + cardRules.get(0));
+        //System.out.println(positionRules.size() + " " + positionRules.get(0));
     }
 
     public String getData(char fromWhichList, int numberOfCardOrPosition){
@@ -76,5 +83,10 @@ public class Reader {
         }else{
             return "";
         }
+    }
+
+    public Card getRandomCard(){
+        Collections.shuffle(cards);
+        return cards.get(0);
     }
 }

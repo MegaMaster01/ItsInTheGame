@@ -73,6 +73,7 @@ public class Game {
                 jatten();
                 break;
             case "hoo wat is het":
+                hooWatIsHet();
                 break;
             case "rechtzaak":
                 rechtzaak();
@@ -87,6 +88,7 @@ public class Game {
         }
     }
 
+    //region tringtring
     public void tringtring(){
         c.lblInformationDialog.setText(
                 c.lblInformationDialog.getText() + "\n\n"
@@ -96,6 +98,7 @@ public class Game {
         c.listenForButtonClick = true;
         c.listenForKeyPressed(p_score);
     }
+    //endregion
 
     //region jatten
     public void jatten(){
@@ -175,9 +178,72 @@ public class Game {
 
     //endregion
 
+    //region hooWatIsHet (UNFINISHED)
     public void hooWatIsHet(){
+        c.lblInformationDialog.setText("Je moet een kaart trekken!" + "\n"+
+                "Druk op de spatiebalk");
+        c.listenForButtonClick = true;
+        c.listenForKeyPressed(-3);
         //nog maken!
     }
+    public void drawCard(){
+//        Card card = c.reader.getRandomCard();
+        Card card = c.reader.cards.get(0);
+
+        switch (card.rule){
+            case "stappen_vooruit":
+                stappenVooruit();
+                break;
+            case "deurwaarder":
+                deurwaarder();
+                break;
+            case "jat-o-hell":
+                jat_o_hell();
+                break;
+            case "goto_start":
+                gotoStart();
+                break;
+            case "stappen_achteruit":
+                stappenAchteruit();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void stappenVooruit(){
+        c.listenForButtonClick = true;
+        c.listenForKeyPressed(-4); //verwijs naar stappen vooruit
+    }
+    public void deurwaarder(){
+        tringtring();
+    }
+    public void jat_o_hell(){
+        c.lblInformationDialog.setText(c.lblInformationDialog.getText()+"\n"+
+                "Jat-O-Hell! Je mag een willekeurig item van een willekeurig persoon jatten!");
+    }
+    public void gotoStart(){
+        c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n\n" +
+                "Ga naar start!\nDruk op enter.");
+        c.listenForButtonClick = true;
+        c.listenForKeyPressed(-6);
+    }
+    public void stappenAchteruit(){
+        c.listenForButtonClick = true;
+        c.listenForKeyPressed(-5); //verwijs naar stappen achteruit
+    }
+
+    public void nextPlayer(){
+        c.lblInformationDialog.setText("");
+        imageView.setDisable(false);
+
+        if(c.activePlayer.getPlayerNum() == 4){
+            c.setPlayerTurn(1); // player 1 again
+        }else{
+            c.setPlayerTurn(c.activePlayer.getPlayerNum() + 1);
+        }
+    }
+    //endregion
 
     //region rechtzaak
     public void rechtzaak(){
@@ -222,7 +288,7 @@ public class Game {
         rt.setCycleCount(0);
         rt.setOnFinished(actionEvent -> {
             if(randomNum == whatToRoll){
-                System.out.println("Won!");
+                //.out.println("Won!");
                 c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" +
                         "You Won! Choose any item you can use!");
                 c.listenForButtonClick = true;
@@ -230,7 +296,7 @@ public class Game {
                 imageView.setDisable(false);
                 //let player know he won!
             }else{
-                System.out.println("Did not win");
+                //System.out.println("Did not win");
                 c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" +
                         "Unfortunately you lost!");
                 c.listenForButtonClick = true;
