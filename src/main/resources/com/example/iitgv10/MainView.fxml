@@ -3,16 +3,14 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="paneBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: white; -fx-background-size: 100%;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.iitgv10.Controller.Controller">
    <children>
-    <AnchorPane fx:id="paneGame" minHeight="0.0" minWidth="0.0" prefHeight="864.0" prefWidth="1536.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane fx:id="paneGame" minHeight="0.0" minWidth="0.0" prefHeight="864.0" prefWidth="1536.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="imgBackground" fitHeight="864.0" fitWidth="1536.0" pickOnBounds="true" preserveRatio="true" smooth="false" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
@@ -32,24 +30,17 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgCurrentplace" fitHeight="300.0" fitWidth="400.0" layoutX="778.0" layoutY="158.0" pickOnBounds="true" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="160.0">
+            <ImageView fx:id="imgCurrentplace" fitHeight="300.0" fitWidth="400.0" layoutX="778.0" layoutY="158.0" pickOnBounds="true" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="140.0">
                <image>
                   <Image url="@Images/test_img.png" />
                </image>
-               <effect>
-                  <InnerShadow choke="0.5" height="100.0" radius="49.5" width="100.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </InnerShadow>
-               </effect>
             </ImageView>
             <Label fx:id="lblInformationDialog" alignment="TOP_LEFT" layoutX="1068.0" layoutY="439.0" prefHeight="90.0" prefWidth="433.0" text="If a card is drawn the explination goes here so the player knows what to do with it" wrapText="true" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="960.0" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="450.0">
                <font>
-                  <Font name="Rockwell Nova" size="18.0" />
+                  <Font name="Rockwell Nova" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="lblContinue" alignment="CENTER" layoutX="210.0" layoutY="150.0" prefWidth="400.0" text="Press enter to continue!" textAlignment="CENTER" visible="false" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="600.0">
+            <Label fx:id="lblContinue" alignment="CENTER" layoutX="210.0" layoutY="150.0" prefWidth="600.0" text="Druk op enter om door te gaan!" textAlignment="CENTER" visible="false" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="650.0">
                <font>
                   <Font name="Rockwell Nova Bold" size="30.0" />
                </font>
@@ -66,7 +57,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="paneDescription" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: WHITE;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="paneDescription" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: WHITE;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fx:id="imgEaserEgg" fitHeight="864.0" fitWidth="1536.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>

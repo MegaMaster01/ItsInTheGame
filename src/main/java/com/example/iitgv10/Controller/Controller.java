@@ -41,7 +41,6 @@ public class Controller {
     public ImageView imgWheel;
     public AnchorPane paneGame;
     public Label lblInformationDialog;
-    public ImageView imgCurrentPlace;
     public Label lblContinue;
     public CheckBox ckb3Players;
     public CheckBox ckb4Players;
@@ -50,7 +49,8 @@ public class Controller {
     public ImageView imgCurrentPlayer;
     public ImageView imgEaserEgg;
     public ImageView imgBackGround_welcome;
-    ArrayList<Circle> movingCircle;
+    public ImageView imgCurrentplace;
+    //ArrayList<Circle> movingCircle;
     //variables
     ArrayList<Player> players;
     Game game = new Game();
@@ -62,7 +62,7 @@ public class Controller {
     int AMOUNT_OF_POSITIONS = 28;
     int AMOUNT_OF_PLAYERS = 4;
     int lastScore = 0;
-    ArrayList<Label> positionLabels;
+    //ArrayList<Label> positionLabels;
     Circle mc = new Circle();
     Scene scene;
     Image standardWheelImage;
@@ -77,8 +77,10 @@ public class Controller {
         game.setUp(this, reader, imgWheel);
         reader.setup("src/main/information.csv"); //read data from file
         items.setUpItems();
+        setImage("placeholder");
 
         standardWheelImage = imgWheel.getImage();
+        lblInformationDialog.setText("Welkom bij Studio Rivals!\n\nKlik op het wiel om te beginnen!\n\nSpeler 1 mag beginnen.");
         //imgBackground.setFitWidth(paneGame.getWidth());
         //imgBackground.setFitHeight(paneGame.getHeight());
         //img.readImages();
@@ -89,7 +91,6 @@ public class Controller {
         //set variables right
         //imgTrace.setVisible(false);
 //        imgCurrentPlace.setImage(new Image(this.getClass().getResourceAsStream("Images/wheel.png")));
-
     }
 
     public void setPlayerTurn(int player){
@@ -102,7 +103,9 @@ public class Controller {
         System.out.println("P1: " + players.get(0).getPosition());
         System.out.println("P2: " + players.get(1).getPosition());
         System.out.println("P3: " + players.get(2).getPosition());
-        System.out.println("P4: " + players.get(3).getPosition());
+        if(AMOUNT_OF_PLAYERS == 4){
+            System.out.println("P4: " + players.get(3).getPosition());
+        }
     }
 
     public void createPlayers(){
@@ -175,6 +178,22 @@ public class Controller {
         }
     }
 
+    public int getNextPos(int currentPlace, int moveAmount, String direction){
+        if(direction.equals("forwards")){
+            if((currentPlace + moveAmount) < AMOUNT_OF_POSITIONS){
+                return currentPlace + moveAmount;
+            }else{
+                return (currentPlace + moveAmount) - AMOUNT_OF_POSITIONS;
+            }
+        }else{
+            if((currentPlace - moveAmount) >= 0){
+                return currentPlace - moveAmount;
+            }else{
+                return (currentPlace - moveAmount) + AMOUNT_OF_POSITIONS;
+            }
+        }
+    }
+
     int random;
     public void setListenToFunction(String function, int score){
         buttonFunction = function;
@@ -183,9 +202,9 @@ public class Controller {
         switch (buttonFunction){
             case "no_action":
                 lblContinue.setVisible(true);
-                positionLabels = drawPositions(currentScore, "forwards");
+                //positionLabels = drawPositions(currentScore, "forwards");
 
-                movingCircle =  moveCircle(currentScore, "forwards");
+                //movingCircle =  moveCircle(currentScore, "forwards");
                 break;
             case "stappen_achteruit":
                 random = ThreadLocalRandom.current().nextInt(1, 3+1);
@@ -199,6 +218,10 @@ public class Controller {
 
                 lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
                         "Ga " + random + " stappen achteruit (ga naar:"+pos+").\nDruk op enter.");
+                listenForButtonClick = true;
+                //positionLabels = drawPositions(getNextPos(activePlayer.getPosition(), pos, "backwards"), "backwards");
+
+                //movingCircle =  moveCircle(getNextPos(activePlayer.getPosition(), pos, "backwards"), "backwards");
                 break;
             case "stappen_vooruit":
                 random = ThreadLocalRandom.current().nextInt(1, 3+1);
@@ -211,14 +234,20 @@ public class Controller {
 
                 lblInformationDialog.setText(lblInformationDialog.getText() + "\n\n" +
                         "Ga " + random + " stappen vooruit (ga naar:"+pos1+").\nDruk op enter.");
+                listenForButtonClick = true;
+                //positionLabels = drawPositions(getNextPos(activePlayer.getPosition(), pos1, "forwards"), "forwards");
+
+                //movingCircle =  moveCircle(getNextPos(activePlayer.getPosition(), pos1, "forwards"), "forwards");
                 break;
             case "min_one":
-                lblContinue.setText("Press enter to continue!");
-                positionLabels = drawPositions(score, "forwards");
+                lblContinue.setText("Druk op enter om door te gaan!");
+                //positionLabels = drawPositions(score, "forwards");
                 //imgTrace.setVisible(true);
-                movingCircle =  moveCircle(game.playerScore, "forwards");
+                //movingCircle =  moveCircle(game.playerScore, "forwards");
                 lblContinue.setVisible(true);
                 listenForButtonClick = true;
+                break;
+            case "jat_o_hell":
                 break;
             default:
                 break;
@@ -264,6 +293,9 @@ public class Controller {
                         break;
                 }
 
+                //paneGame.getChildren().removeAll(positionLabels);
+                //paneGame.getChildren().removeAll(movingCircle);
+
                 System.out.println("Enter pressed!");
             }
         });
@@ -277,18 +309,19 @@ public class Controller {
         imgWheel.setDisable(false);
         lblContinue.setVisible(false);
         listenForButtonClick = false;
+        setImage("placeholder");
 
         //switch to different player
-        if(activePlayer.getPlayerNum() == 4){
+        if(activePlayer.getPlayerNum() == AMOUNT_OF_PLAYERS){
             setPlayerTurn(1); // player 1 again
-            paneGame.getChildren().removeAll(positionLabels);
-            paneGame.getChildren().removeAll(movingCircle);
+            //paneGame.getChildren().removeAll(positionLabels);
+            //paneGame.getChildren().removeAll(movingCircle);
             //System.out.println("Removed " + movingCircle.get(0).getId());
         }else{
 //                    setPlayerTurn(1); // player 1 again
             setPlayerTurn(activePlayer.getPlayerNum() + 1);
-            paneGame.getChildren().removeAll(positionLabels);
-            paneGame.getChildren().removeAll(movingCircle);
+            //paneGame.getChildren().removeAll(positionLabels);
+            //paneGame.getChildren().removeAll(movingCircle);
             //System.out.println("Removed " + movingCircle.get(0).getId());
         }
         if(activePlayer.isSkip()){
@@ -334,17 +367,18 @@ public class Controller {
         imgWheel.setDisable(false);
         lblContinue.setVisible(false);
         listenForButtonClick = false;
+        setImage("placeholder");
 
         lblInformationDialog.setText("");
         if(activePlayer.getPlayerNum() == AMOUNT_OF_PLAYERS){
             setPlayerTurn(1); // player 1 again
-            paneGame.getChildren().removeAll(positionLabels);
-            paneGame.getChildren().removeAll(movingCircle);
+            //paneGame.getChildren().removeAll(positionLabels);
+            //paneGame.getChildren().removeAll(movingCircle);
             //System.out.println("Removed " + movingCircle.get(0).getId());
         }else{
             setPlayerTurn(activePlayer.getPlayerNum() + 1);
-            paneGame.getChildren().removeAll(positionLabels);
-            paneGame.getChildren().removeAll(movingCircle);
+            //paneGame.getChildren().removeAll(positionLabels);
+            //paneGame.getChildren().removeAll(movingCircle);
             //System.out.println("Removed " + movingCircle.get(0).getId());
         }
     }
@@ -360,9 +394,13 @@ public class Controller {
             game.getPlayerAction();
             game.playerScore = 0;
         }
-
+    }
+    public void setImage(String function){
+        Image img = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/example/iitgv10/Images/card_images/"+function+".png")));
+        imgCurrentplace.setImage(img);
     }
 
+    /*
     public ArrayList<Label> drawPositions(int score, String direction){
         ArrayList<Label> labels = new ArrayList<>();
 
@@ -458,6 +496,8 @@ public class Controller {
         list.add(movingCircle);
         return list;
     }
+
+     */
 
     //region changeAmountOfPlayers
     public void set3players(ActionEvent actionEvent) {

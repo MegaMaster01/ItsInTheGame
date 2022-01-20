@@ -91,6 +91,7 @@ public class Game {
 
     //region tringtring
     public void tringtring(){
+        c.setImage("deurwaarder");
         c.lblInformationDialog.setText(
                 c.lblInformationDialog.getText() + "\n\n"
                 + "Je moet het volgende item inleveren: " + c.items.getRandomItem() + "."
@@ -103,15 +104,16 @@ public class Game {
 
     //region jatten
     public void jatten(){
+        c.setImage("jatten");
         c.lblInformationDialog.setText(
                 c.lblInformationDialog.getText() + "\n" //newline
-                + "Je mag jatten van een speler naar keuze!" + "\n"
+                + "\nJe mag jatten van een speler naar keuze!" + "\n"
                 + "Speler " + c.activePlayer.getPlayerNum() + " gooit eerst."
         );
         c.lblInformationDialog.setText(c.lblInformationDialog.getText() + "\n" +
                 "Druk op enter om te gooien.");
         c.listenForButtonClick = true;
-        c.setListenToFunction("jat_o_hell", p_score);
+        c.setListenToFunction("jat_o_hell", p_score); //DEZE NOG TOEVOEGENNNNNNNN!!!!!
     }
 
     int score1 = 0;
@@ -181,6 +183,7 @@ public class Game {
 
     //region hooWatIsHet (UNFINISHED)
     public void hooWatIsHet(){
+        c.setImage("watishet");
         c.lblInformationDialog.setText("Je moet een kaart trekken!" + "\n"+
                 "Druk op enter");
         c.listenForButtonClick = true;
@@ -188,8 +191,9 @@ public class Game {
         //nog maken!
     }
     public void drawCard(){
-//        Card card = c.reader.getRandomCard();
-        Card card = c.reader.cards.get(0);
+        Card card = c.reader.getRandomCard();
+        System.out.println(card.rule);
+//        Card card = c.reader.cards.get(0);
 
         switch (card.rule){
             case "stappen_vooruit":
@@ -251,6 +255,7 @@ public class Game {
 
     //region rechtzaak
     public void rechtzaak(){
+        c.setImage("rechtzaak");
         c.activePlayer.setSkip(true);
         c.listenForButtonClick = true;
         c.setListenToFunction("no_action", p_score);
@@ -259,6 +264,7 @@ public class Game {
 
     //region casino
     public void casino(){
+        c.setImage("casino");
         listenForSpace = true;
         casino_roll = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 
