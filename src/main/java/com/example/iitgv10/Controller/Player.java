@@ -6,8 +6,17 @@ public class Player {
     String name;
     int position;
     Color color;
+    String color_text;
     int playerNum;
     boolean skip = false;
+
+    public String getColor_text() {
+        return color_text;
+    }
+
+    public void setColor_text(String color_text) {
+        this.color_text = color_text;
+    }
 
     public boolean isSkip() {
         return skip;

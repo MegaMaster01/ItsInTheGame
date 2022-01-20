@@ -55,6 +55,11 @@
                   <Image url="@Images/player_images/gamepad1.png" />
                </image>
             </ImageView>
+            <Label fx:id="lblActivePlayer" alignment="CENTER" layoutX="160.0" layoutY="660.0" prefWidth="200.0" rotate="-5.0" textAlignment="CENTER" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="90.0">
+               <font>
+                  <Font name="Rockwell Nova Bold" size="30.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="paneDescription" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: WHITE;" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

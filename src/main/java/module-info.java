@@ -11,6 +11,7 @@ module com.example.iitgv10 {
     requires eu.hansolo.tilesfx;
     requires javafx.graphics;
     requires javafx.media;
+    //requires jfxrt;
 
     opens com.example.iitgv10 to javafx.fxml;
     exports com.example.iitgv10;

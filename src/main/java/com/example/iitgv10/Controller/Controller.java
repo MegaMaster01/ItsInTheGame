@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
@@ -50,6 +51,7 @@ public class Controller {
     public ImageView imgEaserEgg;
     public ImageView imgBackGround_welcome;
     public ImageView imgCurrentplace;
+    public Label lblActivePlayer;
     //ArrayList<Circle> movingCircle;
     //variables
     ArrayList<Player> players;
@@ -98,6 +100,8 @@ public class Controller {
         Image img = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/example/iitgv10/Images/player_images/gamepad"+player+".png")));
         imgCurrentPlayer.setImage(img);
         Player p = players.get(player-1);
+        lblActivePlayer.setTextFill(p.getColor());
+        lblActivePlayer.setText(p.getColor_text());
         activePlayer = p;
 
         System.out.println("P1: " + players.get(0).getPosition());
@@ -114,17 +118,20 @@ public class Controller {
         Player player1 = new Player(); //create a new player
         player1.setName("Player 1"); //give player  name
         player1.setPosition(0);     //give starting position (0 = start)
-        player1.setColor(Color.RED); //give each player a color
+        player1.setColor(Color.WHITE); //give each player a color
+        player1.setColor_text("Wit");
         player1.setPlayerNum(1);     //set player number (to use easier)
         Player player2 = new Player(); //repeat.....
         player2.setName("Player 2");
         player2.setPosition(0);
-        player2.setColor(Color.BLUE);
+        player2.setColor(Color.SILVER);
+        player2.setColor_text("Zilver");
         player2.setPlayerNum(2);
         Player player3 = new Player();
         player3.setName("Player 3");
         player3.setPosition(0);
         player3.setColor(Color.GREEN);
+        player3.setColor_text("Groen");
         player3.setPlayerNum(3);
         players.add(player1);
         players.add(player2);
@@ -133,7 +140,8 @@ public class Controller {
         if(AMOUNT_OF_PLAYERS ==4){
             player4.setName("Player 4");
             player4.setPosition(0);
-            player4.setColor(Color.YELLOW);
+            player4.setColor(Color.BLUE);
+            player4.setColor_text("Blauw");
             player4.setPlayerNum(4);
             players.add(player4);
         }
